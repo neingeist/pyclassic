@@ -3,7 +3,8 @@
 
 import unittest
 import numpy
-import adaboost
+from adaboost import AdaBoost
+from decision_stump import DecisionStump
 
 
 def load_bupa_dataset():
@@ -31,7 +32,8 @@ class AdaBoostTestCase(unittest.TestCase):
     def testBupaData(self):
         X, Y = load_bupa_dataset()
         T = 200
-        accuracy, o, Y  = adaboost.test_on_training(X,Y,T)
+        classifier = AdaBoost(DecisionStump)
+        accuracy, o, Y  = classifier.test_on_training_set(X,Y,T)
         print accuracy
         self.failUnless(accuracy > .8)
 
