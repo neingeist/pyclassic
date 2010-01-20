@@ -9,13 +9,17 @@ class Classifier(object):
         self.verbose = False
         pass
 
-    def set_training_sample(self,X,Y):
+    def set_training_sample(self,X,Y,w=None):
         self.X = X
         self.Y = Y
+        if w:
+            self.weights = w
+        else:
+            self.set_uniform_weights()
 
     def set_uniform_weights(self):
         """ Set all examples to have equal uniform weights. """
-        d,N = self.X.shape
+        N = len(self.Y)
         weights = (1.0/N)*numpy.ones(N)
         self.weights = weights
 

@@ -47,4 +47,53 @@ if __name__ == '__main__':
 
 
 
+"""
 
+X = loadtxt('trn_X.txt')
+y = loadtxt('trn_y.txt',dtype=type(1))
+
+tX = loadtxt('tst_X.txt')
+ty = loadtxt('tst_y.txt',dtype=type(1))
+
+td = rank1_metric.TrainingData(X,y)
+classifier = adaboost.AdaBoost(rank1_metric.Rank1_Metric)
+o = classifier.test_on_training_set(td.X,td.Y,200)
+
+td2 = rank1_metric.TrainingData(tX,ty)
+classifier2 = adaboost.AdaBoost(rank1_metric.Rank1_Metric)
+o = classifier2.test_on_training_set(td2.X,td2.Y,200)
+
+
+threshold = 0
+oo = o.copy()
+oo[numpy.where(o>threshold)[0]] = 1
+oo[numpy.where(o<threshold)[0]] = -1
+
+cascading
+
+ selected balanced positive and negative samples
+
+P -> N: missing
+N -> P: imposer
+
+assymetric
+
+  level = 0
+  while (True):
+     sample (with no replacement) from training pool
+     train adaboost
+     verify on training set
+     tune the threshold s.t. the missing rate is very low
+     if FP/FN < ratio: break
+     level += 1
+     keep FP, FN instances
+
+
+
+
+
+
+
+
+
+"""
