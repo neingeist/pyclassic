@@ -16,17 +16,19 @@ class DecisionStump(Classifier):
         Y = self.Y
         w = self.weights
 
-        feature_index, threshold = train_decision_stump(X,Y,w)
+        feature_index, stump = train_decision_stump(X,Y,w)
         self.feature_index = feature_index
-        self.threshold = threshold
+        self.stump = stump
 
     def predict(self,X):
-        d,N = X.shape
+        N, d = X.shape
         feature_index = self.feature_index
-        threshold = self.threshold
+        threshold = self.stump.threshold
+        s = self.stump.s
 
         Y = numpy.ones(N)
-        Y[numpy.where(X[feature_index]<threshold)[0]] = -1
+        Y[numpy.where(X[:,feature_index]<threshold)[0]] = -1
+        Y[numpy.where(X[:,feature_index]>=threshold)[0]] = 1
         return Y
 
 
@@ -42,10 +44,10 @@ class Stump:
 
 
 def train_decision_stump(X,Y,w):
-    stumps = [build_stump_1d(x,Y,w) for x in X]
+    stumps = [build_stump_1d(x,Y,w) for x in X.T]
     feature_index, best_stump = min(enumerate(stumps), key=operator.itemgetter(1))
     best_threshold = best_stump.threshold
-    return feature_index, best_threshold
+    return feature_index, best_stump
 
 
 def build_stump_1d(x,y,w):
